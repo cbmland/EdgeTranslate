@@ -304,6 +304,7 @@ class TranslatorManager {
             }
 
             // Do translate.
+            console.log('translate',text)
             let result = await this.TRANSLATORS[this.DEFAULT_TRANSLATOR].translate(text, sl, tl);
             result.sourceLanguage = sl;
             result.targetLanguage = tl;
