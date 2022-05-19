@@ -304,23 +304,25 @@ class TranslatorManager {
             }
 
             // Do translate.
-            console.log("translate", text);
+            console.log("translate",this.DEFAULT_TRANSLATOR, text);
             let result = await this.TRANSLATORS[this.DEFAULT_TRANSLATOR].translate(text, sl, tl);
             result.sourceLanguage = sl;
             result.targetLanguage = tl;
             console.log("result", result);
 
-            const response = await axios({
-                url: `/mark`,
-                method: "post",
-                baseURL: 'https://cloud1-9gct9hkld2d12d95-1251039359.ap-shanghai.app.tcloudbase.com',
-                data: JSON.stringify(result),
-                dataType: 'json',
-                timeout: 5000,
-            });
+            //record to cloud server
+            axios
+                .post(
+                    "https://cloud1-9gct9hkld2d12d95-1251039359.ap-shanghai.app.tcloudbase.com/mark",
+                    JSON.stringify(result),
+                    {
+                        headers: { "Content-Type": "application/json" },
+                    }
+                )
+                .then((result) => {
+                    console.log("Mark result:", result);
+                });
 
-            let data = response.data;
-            console.log("Mark result", data);
             // Send translating result to current tab.
             this.channel.emitToTabs(currentTabId, "translating_finished", {
                 timestamp,
