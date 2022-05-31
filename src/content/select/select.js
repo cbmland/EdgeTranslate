@@ -125,6 +125,7 @@ function buttonClickHandler(event) {
  * Use this function to show the translation buttion.
  */
 function showButton(event) {
+    console.log('showButton',event)
     document.documentElement.appendChild(translateButton);
 
     const OffsetXValue = 10,

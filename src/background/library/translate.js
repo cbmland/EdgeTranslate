@@ -304,7 +304,7 @@ class TranslatorManager {
             }
 
             // Do translate.
-            console.log("translator",this.DEFAULT_TRANSLATOR, text);
+            console.log("translator", this.DEFAULT_TRANSLATOR, text);
             let result = await this.TRANSLATORS[this.DEFAULT_TRANSLATOR].translate(text, sl, tl);
             result.sourceLanguage = sl;
             result.targetLanguage = tl;
@@ -319,17 +319,12 @@ class TranslatorManager {
             //record to cloud server
             result.translator = this.DEFAULT_TRANSLATOR;
             axios
-            .post(
-                "https://cloud1-9gct9hkld2d12d95-1251039359.ap-shanghai.app.tcloudbase.com/record_input",
-                JSON.stringify(result),
-                {
+                .post("https://api.cbmland.com/records", JSON.stringify(result), {
                     headers: { "Content-Type": "application/json" },
-                }
-            )
-            .then((result) => {
-                console.log("record_input result:", result);
-            });
-
+                })
+                .then((result) => {
+                    console.log("record_input result:", result);
+                });
         } catch (error) {
             // Inform current tab translating failed.
             this.channel.emitToTabs(currentTabId, "translating_error", {
