@@ -21,6 +21,32 @@ let mutualTranslate = document.getElementById("mutual-translate");
 window.onload = function () {
     i18nHTML();
 
+    console.log('onload')
+    const app = Vue.createApp({
+        data() {
+            return {
+                listArray:['谢大脚','刘英','晓红'],
+                listObject:{
+                    GirlOne:'谢大脚',
+                    GirlTwo:'刘英',
+                    GirlThree:'晓红'
+                }
+            }
+        },
+        methods: {
+            handleChangeBtnClick() {
+                this.listArray.push('JSPang.com')
+                this.listObject['GirlFour']='安红'
+            },
+        },
+        template: `<van-button>按钮</van-button>`
+    })
+    app.use(vant);
+    app.use(vant.Lazyload);
+    vant.Toast('提示');
+    const vm = app.mount("#app")
+    console.log("vm",vm)
+
     let arrowUp = document.getElementById("arrow-up");
     let arrowDown = document.getElementById("arrow-down");
     arrowDown.setAttribute("title", chrome.i18n.getMessage("Unfold"));
